@@ -1,7 +1,35 @@
+import { Paper } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    alignItems : 'center',
+    position: 'absolute',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    left: '25%',
+    height : '100%',
+    width : '50%',
+  },
+  paper: {
+    padding: theme.spacing(3),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    height: '30%',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    flexDirection: 'column',
+    flexWrap:"wrap",
+    width: '100%',
+  },
+}));
 
 const Home = () => {
+  const classes = useStyles()
   const [state, setState] = useState({
     longitude: 0,
     latitude: 0,
@@ -26,17 +54,14 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Geolocation</h1>
-      <p>Latitude: {state.latitude}</p>
-      <p>longitude: {state.longitude}</p>
-
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <h2>Longitude = {state.longitude}</h2>
+        <h2>Latitude = {state.latitude}</h2>
+      </Paper>
       <Link
         to={{
           pathname: "/map",
-          // state: {
-          //   hello: 'world'
-          // }
           state,
         }}
       >
