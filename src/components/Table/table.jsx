@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { Button } from 'reactstrap';
 import axios from 'axios'
+import '../../css/Table.css';
+
 
 
 
@@ -24,13 +27,13 @@ const Table = ({descripcion}) => {
     const removeData = (id) => {
 
         axios.delete(`${URL}/${id}`).then(res => {
-            const del = denuncias.filter(employee => id !== employee.id)
+            const del = denuncias.filter(denuncia => id !== denuncia.id)
             setDenuncias(del)
         })
     }
 
     const renderHeader = () => {
-        let headerElement = ['id', 'motivo', 'fecha','tipoDenuncia']
+        let headerElement = ['id', 'motivo', 'fecha','tipoDenuncia','Acción']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
@@ -44,7 +47,7 @@ const Table = ({descripcion}) => {
                     <td>{motivo}</td>
                     <td>{fecha}</td>    
                     <td>{tipoDenuncia}</td>                
-                    
+                    <td><Button color="danger" onClick={() => removeData(id)}>ELIMINAR</Button></td>
                 </tr>
             )
         })

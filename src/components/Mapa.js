@@ -73,7 +73,7 @@ const Mapa = (props) => {
         <Table />
       </div>
       <div className='mapa'>
-        <Map center={posicion2} zoom={13} scrollWheelZoom={true}>
+        <Map center={posicion2} zoom={9} scrollWheelZoom={true}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
