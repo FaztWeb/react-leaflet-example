@@ -1,4 +1,4 @@
-import React, { useState, useEffect,Button } from "react";
+import React, { useState, useEffect } from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import '../css/Mapa.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,6 +6,7 @@ import Table from '../components/Table/table';
 import ModalNuevaDenuncia from './ModalNuevaDenuncia';
 import MarkersMapa from './MarkersMapa';
 import { VenueLocationIcon } from "./VenueLocationIcon";
+import { Button } from 'reactstrap';
 
 
 
@@ -29,19 +30,19 @@ const Mapa = (props) => {
     latitude: 0,
   });
 
+  const [visible, setVisible] =useState(true);
+
 
   const posicion = [state.latitude, state.longitude]
   
-  const posicion2 = [-27.9143, -55.7547]
-  const posicion3 = [-27.9143, -55.7547]
+  const posicion2 = [-26.741, -54.3137]
+  
 
   const posicion4={lat:-27.9143, lng:-55.7547};
 
-  var posiciones =[{posicion4}];
+  
 
  
-
-
 
 
 
@@ -65,12 +66,22 @@ const Mapa = (props) => {
   
   
 
+
+async function ver() {
+   await setVisible(false);
+   await setVisible(true);
+};
+
+
   return (
 
     <div className='pagina'>
-      <div className='tabla'>                     
+      
+      <div className='tabla'> 
+        <Button color="info" onClick={ver} >ACTUALIZAR</Button>                    
         <ModalNuevaDenuncia initialModalState={show} />
-        <Table />
+        {visible? <Table  />:<div></div>}
+        
       </div>
       <div className='mapa'>
         <Map center={posicion2} zoom={9} scrollWheelZoom={true}>

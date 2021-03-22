@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios'
 import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label } from 'reactstrap';
 
@@ -23,7 +23,7 @@ class ModalNuevaDenuncia extends React.Component {
 
         };
 
-
+      
 
         this.toggle = this.toggle.bind(this);
     }
@@ -94,7 +94,7 @@ class ModalNuevaDenuncia extends React.Component {
     render() {
         return (
             <div>
-                <Button color="info" onClick={this.toggle}>ACTUALIZAR</Button>
+                
                 <Button color="danger" onClick={this.toggle}>NUEVA DENUNCIA</Button>
                 
                 <Modal isOpen={this.state.modal} toggle={this.toggle}
