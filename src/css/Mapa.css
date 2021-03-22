@@ -1,0 +1,13 @@
+.pagina{
+    display: flex;
+    width: 50%;
+
+}
+
+.tabla{
+    width: 70%;
+}
+
+.mapa{
+    width:30%;
+}
