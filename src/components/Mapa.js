@@ -95,7 +95,12 @@ async function ver() {
   
    await setVisible(false);
    await setVisible(true);
-   
+   cargarUbicaciones();
+   setState({          
+    longitude:27.3769, 
+    latitude: -55.9213,
+    posiciones:marcas
+  });
    
 }
 
