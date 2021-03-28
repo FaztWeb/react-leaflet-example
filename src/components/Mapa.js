@@ -1,138 +1,191 @@
-import React, { useState, useEffect } from "react";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
-import '../css/Mapa.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Table from '../components/Table/table';
-import ModalNuevaDenuncia from './ModalNuevaDenuncia';
-import MarkersMapa from './MarkersMapa';
-import Heat from './Map';
-import VenueMarkers from './VenueMarkers';
-import { VenueLocationIcon } from "./VenueLocationIcon";
-import { Button } from 'reactstrap';
 import axios from 'axios';
-
-
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "leaflet/dist/leaflet.css";
+import React, { useEffect, useState } from "react";
+import { flushSync } from 'react-dom';
+import { Map, TileLayer, ZoomControl } from "react-leaflet";
 
-const baseUrl="https://denuncias-api-posadas.herokuapp.com/denuncias";
+import Table from '../components/Table/table';
+import '../css/Mapa.css';
+import HeatmapLayer from './HeatmapLayer';
+import ModalNuevaDenuncia from './ModalNuevaDenuncia';
+import VenueMarkers from './VenueMarkers';
+import Control from 'react-leaflet-control';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLayerGroup, faMapMarker, faSync, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label } from 'reactstrap';
+
+const baseUrl = "https://denuncias-api-posadas.herokuapp.com/denuncias";
 
 
-var idPersonas =[];
-var marcas =[]
+var idPersonas = [];
+var marcas = []
+var marcasHeat = []
+
 
 
 
 const Mapa = (props) => {
 
   const [show, setShow] = useState(false);
-  
- 
-  
-  const handleShow = () => {setShow(true);}
-
-  
+  const handleShow = () => { setShow(true); }
+  const [visible, setVisible] = useState(true);
+  const [heat, setHeat] = useState(false);
+  const posicion2 = [-27.4038, -55.8830]
 
   const [state, setState] = useState({
     longitude: 0,
     latitude: 0,
-    posiciones:[]
+    posiciones: []
   });
 
-   function cargar(lat,lon,descripcion){
-      
-      var marca ={
-        venue:'',     
-        description:'',       
-        name:descripcion,
-        geometry:[lat,lon]      
-        }    
-        marcas.push(marca)
+  function cargar(lat, lon, descripcion) {
+    var marca = {
+      venue: '',
+      description: '',
+      name: descripcion,
+      geometry: [lat, lon]
     }
-   
-  
-  async function  cargarUbicaciones(){
-    await axios.get(baseUrl)
-    .then(response=>{            
-        return response.data._embedded.denuncias;
-    })
-    .then(response=>{
-        
-        if(response.length>0 ){  
-          idPersonas=response;              
-          idPersonas.map((id) => (
-           
-            cargar(id.lat,id.lon,id.motivo)
-            
-            ));
-        }else{
-            alert('Error');
-        }
-    })
-    .catch(error=>{
-        console.log(error);
-    })
-  
+    marcas.push(marca)
   }
 
-  const [visible, setVisible] =useState(true);
-  const posicion2 = [-27.4038, -55.8830]
-  
- 
+  function cargarHeat(lat, lon, descripcion) {
+    var marcaHeat = [lat, lon, 500]
+    marcasHeat.push(marcaHeat)
+  }
+
+
+  async function cargarUbicaciones() {
+    await axios.get(baseUrl)
+      .then(response => {
+        return response.data._embedded.denuncias;
+      })
+      .then(response => {
+
+        if (response.length > 0) {
+          idPersonas = response;
+          idPersonas.map((id) => (
+
+            cargar(id.lat, id.lon, id.motivo),
+            cargarHeat(id.lat, id.lon, id.motivo)
+
+          ));
+        } else {
+          alert('Error');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+
+  }
+
+
+
+
 
   useEffect(() => {
     cargarUbicaciones();
-          setState({          
-          longitude:27.3769, 
-          latitude: -55.9213,
-          posiciones:marcas
-        });
-      
-    
+    setState({
+      longitude: 27.3769,
+      latitude: -55.9213,
+      posiciones: marcas
+    });
+
+
   }, []);
 
-async function ver() {
-  
-   await setVisible(false);
-   await setVisible(true);
-   cargarUbicaciones();
-   setState({          
-    longitude:27.3769, 
-    latitude: -55.9213,
-    posiciones:marcas
-  });
-   
-}
+  async function ver() {
+    setHeat(false)
+    await setVisible(false);
+    await setVisible(true);
+    cargarUbicaciones();
+    setState({
+      longitude: 27.3769,
+      latitude: -55.9213,
+      posiciones: marcas
+    });
+
+  }
+
+  async function verHeat() {
+
+
+
+    setHeat(true);
+
+  }
 
 
   return (
 
     <div className='pagina'>
-      
-      <div className='tabla'> 
-        <Button color="info" onClick={ver} >ACTUALIZAR</Button>    
-                  
-        <ModalNuevaDenuncia initialModalState={show} lat={-27.3769} lon={-55.9213}   />
-        {visible? <Table  />:<div></div>}
-        
+
+      <div className='tabla'>
+
+        <Button color="info" onClick={ver} ><FontAwesomeIcon icon={faSync} size="1x" /></Button>
+        <div><FontAwesomeIcon faPlus /> <ModalNuevaDenuncia initialModalState={show} lat={-27.3769} lon={-55.9213} /></div>
+
+        <div className="panelBusqueda">
+          <Label for="motivo">Motivo</Label>
+          <Input type="text" id="motivo" name="motivo" />
+          <Label for="tipoDenuncia">Tipo Denuncia</Label>
+          <div>
+            <select id="lang" name="tipoDenuncia" value='' >
+              <option value="ELEGIR">ELEGIR</option>
+              <option value="VIOLENCIA_DE_GENERO">VIOLENCIA_DE_GENERO</option>
+              <option value="ROBO">ROBO</option>
+              <option value="NARCOTRAFICO">NARCOTRAFICO</option>
+              <option value="HOMICIDIO">HOMICIDIO</option>
+              <option value="FEMICIDIO">FEMICIDIO</option>
+              <option value="PARRICIDIO">PARRICIDIO</option>
+            </select>
+          </div>
+        </div>
+        {visible ? <Table /> : <div></div>}
+
       </div>
       <div className='mapa'>
-      <Map center={posicion2} zoom={13} scrollWheelZoom={true}>
+
+        <Map center={posicion2} zoom={13} scrollWheelZoom={true}>
+
+          {heat ? <HeatmapLayer
+            fitBoundsOnLoad
+            fitBoundsOnUpdate
+            points={marcasHeat}
+            longitudeExtractor={m => m[1]}
+            latitudeExtractor={m => m[0]}
+            intensityExtractor={m => parseFloat(m[2])} /> : <div></div>}
+          <ZoomControl position="topright" />
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-            {visible?<VenueMarkers venues={state.posiciones} />:<div></div>}
-      
+          {visible && !heat ? <VenueMarkers venues={state.posiciones} /> : <div></div>}
+          <Control position="topleft" >
+            <button
+              onClick={() => verHeat()}
+            >
+              <FontAwesomeIcon icon={faLayerGroup} size="3x" />
+            </button>
+            <div>
+              <button
+                onClick={() => ver()}
+              >
+                <FontAwesomeIcon icon={faMapMarker} size="3x" />
+
+              </button>
+            </div>
+          </Control>
 
         </Map>
-        
-       
+
+
       </div>
-      
+
     </div>
-    
+
   );
 };
 

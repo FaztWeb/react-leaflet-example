@@ -9,10 +9,23 @@
 
 }
 
-.tabla{
+.panelBusqueda{
     width: 70%;
+    min-height:10vh;
+    max-height:80vh;
+    
+}
+
+.tabla{
+    
+    width:65%;    
+    min-height:10vh;
+    max-height:95vh;
+    
+    overflow-y: scroll;
 }
 
 .mapa{
     width:30%;
 }
+
