@@ -116,7 +116,7 @@ async function ver() {
         
       </div>
       <div className='mapa'>
-        <Map center={posicion2} zoom={13} scrollWheelZoom={true}>
+      {visible?<Map center={posicion2} zoom={13} scrollWheelZoom={true}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -125,7 +125,7 @@ async function ver() {
                 <VenueMarkers venues={state.posiciones} />
       
 
-        </Map>
+        </Map>:<div></div>}
         
        
       </div>
