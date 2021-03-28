@@ -15,12 +15,10 @@ import axios from 'axios';
 
 import "leaflet/dist/leaflet.css";
 
-const baseUrl="http://denuncias-api-posadas.herokuapp.com/denuncias";
+const baseUrl="https://denuncias-api-posadas.herokuapp.com/denuncias";
 
 
 var idPersonas =[];
-var ubicaciones =[];
-var url='';
 var marcas =[]
 
 
@@ -28,9 +26,12 @@ var marcas =[]
 const Mapa = (props) => {
 
   const [show, setShow] = useState(false);
+  
+ 
+  
+  const handleShow = () => {setShow(true);}
 
   
-  const handleShow = () => {setShow(true);console.log(show)}
 
   const [state, setState] = useState({
     longitude: 0,
@@ -77,14 +78,14 @@ const Mapa = (props) => {
   const [visible, setVisible] =useState(true);
   const posicion2 = [-27.4038, -55.8830]
   
-
+ 
 
   useEffect(() => {
     cargarUbicaciones();
     navigator.geolocation.getCurrentPosition(
       function (position) {
-        
-        setState({
+       
+          setState({          
           longitude: position.coords.longitude,
           latitude: position.coords.latitude,
           posiciones:marcas
@@ -100,32 +101,36 @@ const Mapa = (props) => {
   }, []);
 
 async function ver() {
+  
    await setVisible(false);
    await setVisible(true);
+  
+   
 }
 
 
   return (
 
     <div className='pagina'>
-     
+      <nav value='hola' />
       <div className='tabla'> 
-        <Button color="info" onClick={ver} >ACTUALIZAR</Button>                    
-        <ModalNuevaDenuncia initialModalState={show} />
+        <Button color="info" onClick={ver} >ACTUALIZAR</Button>    
+                  
+        <ModalNuevaDenuncia initialModalState={show} lat={-27.3769} lon={-55.9213}   />
         {visible? <Table  />:<div></div>}
         
       </div>
       <div className='mapa'>
-      {visible?<Map center={posicion2} zoom={13} scrollWheelZoom={true}>
+      <Map center={posicion2} zoom={13} scrollWheelZoom={true}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-                <VenueMarkers venues={state.posiciones} />
+            {visible?<VenueMarkers venues={state.posiciones} />:<div></div>}
       
 
-        </Map>:<div></div>}
+        </Map>
         
        
       </div>

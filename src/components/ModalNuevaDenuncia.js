@@ -17,17 +17,19 @@ class ModalNuevaDenuncia extends React.Component {
             nombre: "",
             apellido: "",
             dni: "",
-            lat: 0.0,
-            lon: 0.0
+            lat: props.lat,
+            lon: props.lon
 
 
         };
-
-      
+        
 
         this.toggle = this.toggle.bind(this);
+        
     }
 
+   
+    
 
     changeHandler = e => {
         this.setState({ [e.target.name]: e.target.value })     
@@ -84,12 +86,14 @@ class ModalNuevaDenuncia extends React.Component {
             })
     }
 
-
+    
 
     toggle() {
+       
         this.setState({
             modal: !this.state.modal,
-            fade: !this.state.fade
+            fade: !this.state.fade,
+           
 
         });
     }
@@ -138,11 +142,11 @@ class ModalNuevaDenuncia extends React.Component {
                             </FormGroup>
                             <FormGroup>
                                 <Label for="latitud">Latitud</Label>
-                                <Input type="number" id="latitud" name="lat" onChange={this.changeHandler} />
+                                <Input type="number" id="latitud" name="lat" value={this.state.lat} onChange={this.changeHandler} />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="longitud">Longitud</Label>
-                                <Input type="number" id="longitud" name="lon" onChange={this.changeHandler} />
+                                <Input type="number" id="longitud" name="lon" value={this.state.lon} onChange={this.changeHandler} />
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
