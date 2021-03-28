@@ -1,7 +1,8 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios'
-import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label } from 'reactstrap';
-
+import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label,Tooltip } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 
 class ModalNuevaDenuncia extends React.Component {
@@ -18,13 +19,14 @@ class ModalNuevaDenuncia extends React.Component {
             apellido: "",
             dni: "",
             lat: props.lat,
-            lon: props.lon
-
+            lon: props.lon,
+            toolTip:false
 
         };
         
 
         this.toggle = this.toggle.bind(this);
+        this.toggleTool = this.toggleTool.bind(this);
         
     }
 
@@ -93,16 +95,30 @@ class ModalNuevaDenuncia extends React.Component {
         this.setState({
             modal: !this.state.modal,
             fade: !this.state.fade,
-           
+            
 
         });
     }
+
+    toggleTool() {
+       
+        this.setState({
+            
+            toolTip: !this.state.toolTip
+
+        });
+    }
+
+    
 
     render() {
         return (
             <div>
                 
-                <Button color="danger" onClick={this.toggle}>NUEVA DENUNCIA</Button>
+                <Button id='nuevaDenuncia' color="danger" onClick={this.toggle}><FontAwesomeIcon icon={faPlus} size="1x" /></Button>
+                <Tooltip placement="right" isOpen={this.state.toolTip} target="nuevaDenuncia" toggle={this.toggleTool}>
+                    NUEVA DENUNCIA
+                </Tooltip>
                 
                 <Modal isOpen={this.state.modal} toggle={this.toggle}
                     fade={this.state.fade}
@@ -117,7 +133,7 @@ class ModalNuevaDenuncia extends React.Component {
                             <FormGroup>
                                 <Label for="tipoDenuncia">Tipo Denuncia</Label>
                                 <div>
-                                <select  id="lang" name="tipoDenuncia" onChange={this.changeHandler} value={this.state.value}>
+                                <select  id="lang" className="select" name="tipoDenuncia" onChange={this.changeHandler} value={this.state.value}>
                                     <option value="ELEGIR">ELEGIR</option>
                                     <option value="VIOLENCIA_DE_GENERO">VIOLENCIA_DE_GENERO</option>
                                     <option value="ROBO">ROBO</option>

@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup, faMapMarker, faSync, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label } from 'reactstrap';
 
-const baseUrl = "https://denuncias-api-posadas.herokuapp.com/denuncias";
+const baseUrl = "https://denuncias-api-posadas.herokuapp.com/denuncias?size=5000";
 
 
 var idPersonas = [];
@@ -36,8 +36,17 @@ const Mapa = (props) => {
   const [state, setState] = useState({
     longitude: 0,
     latitude: 0,
-    posiciones: []
+    posiciones: [],
+    
   });
+
+  const [busquedaMotivo,setBusquedaMotivo]=useState('')
+
+  const[busqueda,setBusqueda]=useState({
+    motivo:'',
+    tipoDenuncia:' '
+  })
+    
 
   function cargar(lat, lon, descripcion) {
     var marca = {
@@ -85,6 +94,7 @@ const Mapa = (props) => {
 
 
   useEffect(() => {
+    ver()
     cargarUbicaciones();
     setState({
       longitude: 27.3769,
@@ -109,29 +119,34 @@ const Mapa = (props) => {
   }
 
   async function verHeat() {
-
-
-
     setHeat(true);
-
   }
+
+  
+
+const changeHandler = e => {
+  setBusqueda({ [e.target.name]: e.target.value })
+  ver()
+    
+}
 
 
   return (
 
     <div className='pagina'>
-
+      <div>
+          <Button color="info" onClick={ver} ><FontAwesomeIcon icon={faSync} size="1x" /></Button>
+      </div>
       <div className='tabla'>
 
-        <Button color="info" onClick={ver} ><FontAwesomeIcon icon={faSync} size="1x" /></Button>
-        <div><FontAwesomeIcon faPlus /> <ModalNuevaDenuncia initialModalState={show} lat={-27.3769} lon={-55.9213} /></div>
+       
+        <div> <ModalNuevaDenuncia initialModalState={show} lat={-27.3769} lon={-55.9213} /></div>
 
         <div className="panelBusqueda">
-          <Label for="motivo">Motivo</Label>
-          <Input type="text" id="motivo" name="motivo" />
+          
           <Label for="tipoDenuncia">Tipo Denuncia</Label>
           <div>
-            <select id="lang" name="tipoDenuncia" value='' >
+            <select id="selectlang" className="select" name="tipoDenuncia" onChange={changeHandler} value={busqueda.tipoDenuncia}  >
               <option value="ELEGIR">ELEGIR</option>
               <option value="VIOLENCIA_DE_GENERO">VIOLENCIA_DE_GENERO</option>
               <option value="ROBO">ROBO</option>
@@ -142,9 +157,10 @@ const Mapa = (props) => {
             </select>
           </div>
         </div>
-        {visible ? <Table /> : <div></div>}
-
+        {visible ? <Table tipoDenuncia={busqueda.tipoDenuncia} /> : <div></div>}
+        
       </div>
+      
       <div className='mapa'>
 
         <Map center={posicion2} zoom={13} scrollWheelZoom={true}>

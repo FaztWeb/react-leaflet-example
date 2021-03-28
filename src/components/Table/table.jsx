@@ -7,9 +7,9 @@ import '../../css/Table.css';
 
 
 
-const Table = ({descripcion}) => {
+const Table = ({tipoDenuncia}) => {
   
-    let URL = 'https://denuncias-api-posadas.herokuapp.com/denuncias'
+    let URL = 'https://denuncias-api-posadas.herokuapp.com/denuncias?size=5000'
     
     
     const [denuncias, setDenuncias] = useState([])
@@ -21,7 +21,13 @@ const Table = ({descripcion}) => {
     const getData = async () => {
 
         const response = await axios.get(URL)
-        setDenuncias(response.data._embedded.denuncias)
+        
+        setDenuncias(tipoDenuncia=='ELEGIR'?response.data._embedded.denuncias:
+                                            tipoDenuncia==' '?
+                                            response.data._embedded.denuncias:
+                                            response.data._embedded.denuncias.filter(d=>d.tipoDenuncia==tipoDenuncia))
+        
+        
     }
 
     const removeData = (id) => {
@@ -55,7 +61,7 @@ const Table = ({descripcion}) => {
 
     return (
         <>
-            <p className="flow-text">Denuncias</p>
+            
             <table id='tabla_denuncias' className="table">
                 <thead>
                     <tr>{renderHeader()}</tr>
