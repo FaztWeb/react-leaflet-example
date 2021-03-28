@@ -17,8 +17,8 @@ class ModalNuevaDenuncia extends React.Component {
             nombre: "",
             apellido: "",
             dni: "",
-            latitud: "",
-            longitud: ""
+            lat: 0.0,
+            lon: 0.0
 
 
         };
@@ -30,7 +30,8 @@ class ModalNuevaDenuncia extends React.Component {
 
 
     changeHandler = e => {
-        this.setState({ [e.target.name]: e.target.value })        
+        this.setState({ [e.target.name]: e.target.value })     
+          
     }
     submitHandler = e => {
         const persona = ({
@@ -42,8 +43,8 @@ class ModalNuevaDenuncia extends React.Component {
 
         })
         const ubicacion = ({
-            lat: null,
-            lon: null
+            lat: this.state.lat,
+            lon: this.state.lon
         })
         const judicial = ({
             id: null
@@ -53,6 +54,8 @@ class ModalNuevaDenuncia extends React.Component {
             motivo: this.state.motivo,
             fecha: new Date(),
             tipoDenuncia: this.state.tipoDenuncia,
+            lat:this.state.lat,
+            lon:this.state.lon,
             ubicacion: ubicacion,
             denunciado: persona,
             denunciante: persona,
@@ -135,11 +138,11 @@ class ModalNuevaDenuncia extends React.Component {
                             </FormGroup>
                             <FormGroup>
                                 <Label for="latitud">Latitud</Label>
-                                <Input type="text" id="latitud" name="latitud" onChange={this.changeHandler} />
+                                <Input type="number" id="latitud" name="lat" onChange={this.changeHandler} />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="longitud">Longitud</Label>
-                                <Input type="text" id="longitud" name="longitud" onChange={this.changeHandler} />
+                                <Input type="number" id="longitud" name="lon" onChange={this.changeHandler} />
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>

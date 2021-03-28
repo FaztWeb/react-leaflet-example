@@ -10,6 +10,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "leaflet": "^1.6.0",
+    "leaflet.heat": "^0.2.0",
     "materialize-css": "^1.0.0-rc.2",
     "md5": "^2.3.0",
     "react": "^16.13.1",
