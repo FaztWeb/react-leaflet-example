@@ -82,29 +82,20 @@ const Mapa = (props) => {
 
   useEffect(() => {
     cargarUbicaciones();
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-       
           setState({          
-          longitude: position.coords.longitude,
-          latitude: position.coords.latitude,
+          longitude:27.3769, 
+          latitude: -55.9213,
           posiciones:marcas
         });
-      },
-      function (error) {
-        console.error("Error Code = " + error.code + " - " + error.message);
-      },
-      {
-        enableHighAccuracy: true,
-      }
-    );
+      
+    
   }, []);
 
 async function ver() {
   
    await setVisible(false);
    await setVisible(true);
-  
+   
    
 }
 
@@ -112,7 +103,7 @@ async function ver() {
   return (
 
     <div className='pagina'>
-      <nav value='hola' />
+      
       <div className='tabla'> 
         <Button color="info" onClick={ver} >ACTUALIZAR</Button>    
                   
