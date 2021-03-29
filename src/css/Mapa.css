@@ -38,3 +38,9 @@
     height: 4vh;
 }
 
+
+.leaflet-container {
+    width: 65vw;
+    height: 100vh;
+}
+
