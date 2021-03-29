@@ -1,0 +1,40 @@
+
+
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+.pagina{
+    display: flex;
+    width: 50%;
+
+}
+
+.panelBusqueda{
+    width: 70%;
+    min-height:10vh;
+    max-height:80vh;
+    
+}
+
+.tabla{
+    
+    width:65%;    
+    min-height:10vh;
+    max-height:95vh;
+    
+    overflow-y: scroll;
+}
+
+.mapa{
+    
+    width:30%;
+}
+
+
+.select{
+    width:100%;
+    height: 4vh;
+}
+
