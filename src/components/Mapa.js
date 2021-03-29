@@ -1,19 +1,17 @@
+import { faAdjust, faLayerGroup, faMapMarker, faSync } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "leaflet/dist/leaflet.css";
 import React, { useEffect, useState } from "react";
-import { flushSync } from 'react-dom';
 import { Map, TileLayer, ZoomControl } from "react-leaflet";
-
+import Control from 'react-leaflet-control';
+import { Button, Label } from 'reactstrap';
 import Table from '../components/Table/table';
 import '../css/Mapa.css';
 import HeatmapLayer from './HeatmapLayer';
 import ModalNuevaDenuncia from './ModalNuevaDenuncia';
 import VenueMarkers from './VenueMarkers';
-import Control from 'react-leaflet-control';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLayerGroup, faMapMarker, faSync, faPlus,faAdjust } from '@fortawesome/free-solid-svg-icons'
-import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label } from 'reactstrap';
 
 const baseUrl = "https://denuncias-api-posadas.herokuapp.com/denuncias?size=500";
 
@@ -25,10 +23,9 @@ var marcasHeat = []
 
 
 
-const Mapa = (props) => {
+const Mapa = () => {
 
   const [show, setShow] = useState(false);
-  const handleShow = () => { setShow(true); }
   const [visible, setVisible] = useState(true);
   const [heat, setHeat] = useState(false);
 
@@ -44,7 +41,7 @@ const Mapa = (props) => {
     
   });
 
-  const [busquedaMotivo,setBusquedaMotivo]=useState('')
+  
 
   const[busqueda,setBusqueda]=useState({
     motivo:'',

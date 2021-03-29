@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from 'react';
-import axios from 'axios'
-import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label,Tooltip } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import React from 'react';
+import { Button, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Tooltip } from 'reactstrap';
 
 
 class ModalNuevaDenuncia extends React.Component {
