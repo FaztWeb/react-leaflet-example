@@ -26,7 +26,10 @@ body {
 }
 
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
+  .sidenav {padding-top: 15px;
+            
+  
+  }
 }
 
 @media screen and (max-width: 450px) {

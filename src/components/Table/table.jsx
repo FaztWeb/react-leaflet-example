@@ -3,7 +3,7 @@ import { Button,Table,Pagination, PaginationItem, PaginationLink } from 'reactst
 import axios from 'axios'
 import '../../css/Table.css';
 import Loading from './Loading.js'
-
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 
 
@@ -53,7 +53,7 @@ const Tables = ({tipoDenuncia}) => {
                     <td>{motivo}</td>
                     <td>{fecha}</td>    
                     <td>{tipoDenuncia}</td>                
-                    <td><Button color="danger" onClick={() => removeData(id)}>ELIMINAR</Button></td>
+                    <td><Button color="danger" onClick={() => removeData(id)}><DeleteForeverIcon/></Button></td>
                 </tr>
             )
         })

@@ -8,6 +8,7 @@
 .pagina{
     display: flex;
     width: 50%;
+    
 
 }
 
@@ -25,6 +26,11 @@
     max-height:95vh;
     
     overflow-y: scroll;
+    padding-top: 0.5vh;
+}
+
+.botonActualizar{
+    padding-top: 0.5vh;
 }
 
 .mapa{

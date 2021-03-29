@@ -49,7 +49,7 @@ const  Login=()=> {
                 if (existe){
                         cookies.set('usuario', user, {path: "/"});
                         cookies.set('contrasenia', pass, {path: "/"});                    
-                        alert(`Bienvenido ${user} ${pass}`);
+                        alert(`Bienvenido ${user}`);
                         window.location.href="./mapa";
                 }else{
                     cookies.set('usuario', '', {path: "/"});
