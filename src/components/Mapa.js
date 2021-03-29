@@ -12,7 +12,7 @@ import ModalNuevaDenuncia from './ModalNuevaDenuncia';
 import VenueMarkers from './VenueMarkers';
 import Control from 'react-leaflet-control';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLayerGroup, faMapMarker, faSync, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faLayerGroup, faMapMarker, faSync, faPlus,faAdjust } from '@fortawesome/free-solid-svg-icons'
 import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label } from 'reactstrap';
 
 const baseUrl = "https://denuncias-api-posadas.herokuapp.com/denuncias?size=500";
@@ -31,6 +31,8 @@ const Mapa = (props) => {
   const handleShow = () => { setShow(true); }
   const [visible, setVisible] = useState(true);
   const [heat, setHeat] = useState(false);
+
+  const [dark, setDark] = useState(false);
   const posicion2 = [-27.4038, -55.8830]
   
   var tipo=' '
@@ -128,6 +130,11 @@ const Mapa = (props) => {
     setHeat(true);
   }
 
+  async function verDark() {
+    setDark(!dark);
+
+  }
+
   
 const changeHandler = e => {
   
@@ -185,11 +192,18 @@ const changeHandler = e => {
             latitudeExtractor={m => m[0]}
             intensityExtractor={m => parseFloat(m[2])} /> : <div></div>}
           <ZoomControl position="topright" />
+          
+          {!dark?
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-
+            :
+          <TileLayer
+            attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+            url='https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
+          />
+          }
           {visible && !heat ? <VenueMarkers venues={state.posiciones} /> : <div></div>}
           <Control position="topleft" >
             <button
@@ -201,7 +215,15 @@ const changeHandler = e => {
               <button
                 onClick={() => ver()}
               >
-                <FontAwesomeIcon icon={faMapMarker} size="3x" />
+                <FontAwesomeIcon icon={faMapMarker} size="4x" />
+
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => verDark()}
+              >
+                 <FontAwesomeIcon icon={faAdjust} size="3x" />
 
               </button>
             </div>
