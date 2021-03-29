@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup, faMapMarker, faSync, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Button, Modal, ModalFooter, ModalHeader, ModalBody, FormGroup, Input, Label } from 'reactstrap';
 
-const baseUrl = "https://denuncias-api-posadas.herokuapp.com/denuncias?size=5000";
+const baseUrl = "https://denuncias-api-posadas.herokuapp.com/denuncias?size=500";
 
 
 var idPersonas = [];
@@ -32,6 +32,8 @@ const Mapa = (props) => {
   const [visible, setVisible] = useState(true);
   const [heat, setHeat] = useState(false);
   const posicion2 = [-27.4038, -55.8830]
+  
+  var tipo=' '
 
   const [state, setState] = useState({
     longitude: 0,
@@ -59,7 +61,7 @@ const Mapa = (props) => {
   }
 
   function cargarHeat(lat, lon, descripcion) {
-    var marcaHeat = [lat, lon, 500]
+    var marcaHeat = [lat, lon, 1500]
     marcasHeat.push(marcaHeat)
   }
 
@@ -72,8 +74,12 @@ const Mapa = (props) => {
       .then(response => {
 
         if (response.length > 0) {
-          idPersonas = response;
-          idPersonas.map((id) => (
+          idPersonas = tipo=='ELEGIR'?response:
+                                      tipo==' '?response:
+                                      response.filter(p=>p.tipoDenuncia==tipo)
+          console.log(tipo)
+          idPersonas
+          .map((id) => (
 
             cargar(id.lat, id.lon, id.motivo),
             cargarHeat(id.lat, id.lon, id.motivo)
@@ -89,13 +95,13 @@ const Mapa = (props) => {
 
   }
 
-
+  
 
 
 
   useEffect(() => {
     ver()
-    cargarUbicaciones();
+    cargarUbicaciones()
     setState({
       longitude: 27.3769,
       latitude: -55.9213,
@@ -109,7 +115,7 @@ const Mapa = (props) => {
     setHeat(false)
     await setVisible(false);
     await setVisible(true);
-    cargarUbicaciones();
+    
     setState({
       longitude: 27.3769,
       latitude: -55.9213,
@@ -123,9 +129,15 @@ const Mapa = (props) => {
   }
 
   
-
 const changeHandler = e => {
+  
+    tipo=e.target.value;    
+    setState.posiciones=[]
+    marcas=[]
+    marcasHeat=[]
+  cargarUbicaciones();
   setBusqueda({ [e.target.name]: e.target.value })
+ 
   ver()
     
 }
@@ -199,9 +211,9 @@ const changeHandler = e => {
 
 
       </div>
-
+              
     </div>
-
+    
   );
 };
 

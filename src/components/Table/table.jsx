@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'reactstrap';
+import { Button,Table,Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import axios from 'axios'
 import '../../css/Table.css';
 
@@ -7,9 +7,9 @@ import '../../css/Table.css';
 
 
 
-const Table = ({tipoDenuncia}) => {
+const Tables = ({tipoDenuncia}) => {
   
-    let URL = 'https://denuncias-api-posadas.herokuapp.com/denuncias?size=5000'
+    let URL = 'https://denuncias-api-posadas.herokuapp.com/denuncias?size=500'
     
     
     const [denuncias, setDenuncias] = useState([])
@@ -62,17 +62,18 @@ const Table = ({tipoDenuncia}) => {
     return (
         <>
             
-            <table id='tabla_denuncias' className="table">
+            <Table id='tabla_denuncias' responsive>
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>
                 <tbody>
                     {renderBody()}
                 </tbody>
-            </table>
+            </Table>
+            
         </>
     )
 }
 
 
-export default Table
+export default Tables
