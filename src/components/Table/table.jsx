@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Button,Table,Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import axios from 'axios'
 import '../../css/Table.css';
-
+import Loading from './Loading.js'
 
 
 
 
 const Tables = ({tipoDenuncia}) => {
   
-    let URL = 'https://denuncias-api-posadas.herokuapp.com/denuncias?size=500'
+    let URL = 'https://denuncias-api-posadas.herokuapp.com/denuncias'
     
-    
+    const[load,setLoad]=useState(false);
     const [denuncias, setDenuncias] = useState([])
 
     useEffect(() => {
@@ -19,19 +19,19 @@ const Tables = ({tipoDenuncia}) => {
     }, [])
 
     const getData = async () => {
-
-        const response = await axios.get(URL)
+        setLoad(true)
+        const response = await axios.get(URL.concat('?size=500'))
         
         setDenuncias(tipoDenuncia=='ELEGIR'?response.data._embedded.denuncias:
                                             tipoDenuncia==' '?
                                             response.data._embedded.denuncias:
                                             response.data._embedded.denuncias.filter(d=>d.tipoDenuncia==tipoDenuncia))
-        
+        setLoad(false)
         
     }
 
     const removeData = (id) => {
-
+       
         axios.delete(`${URL}/${id}`).then(res => {
             const del = denuncias.filter(denuncia => id !== denuncia.id)
             setDenuncias(del)
@@ -60,8 +60,9 @@ const Tables = ({tipoDenuncia}) => {
     }
 
     return (
-        <>
-            
+        <>   
+               
+            {load? <Loading/>:
             <Table id='tabla_denuncias' responsive>
                 <thead>
                     <tr>{renderHeader()}</tr>
@@ -69,7 +70,7 @@ const Tables = ({tipoDenuncia}) => {
                 <tbody>
                     {renderBody()}
                 </tbody>
-            </Table>
+            </Table>}
             
         </>
     )
