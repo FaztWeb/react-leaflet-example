@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import '../css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Input from '../components/Input/input';
-import Title from '../components/Title/title';
-import Label from '../components/Label/label';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-
+import {Button} from 'reactstrap'
 const baseUrl="https://denuncias-api-posadas.herokuapp.com/personas";
 const cookies = new Cookies();
 
@@ -74,39 +72,56 @@ const  Login=()=> {
     }
 
     return (
-      <div className="containerPrincipal">
-        <div className="containerSecundario">  
-            <div className="form-group">          
-                <Title text={'DENUNCIAS'}/>
-                <Label text={'Ingrese el nombre de usuario'}/>
-                
-                <Input 
-                    className="form-control"
-                    atributte={{
-                        id:'usuario',
-                        name:'usuario',
-                        type:'text',
-                        placeholder:'Ingrese su usuario'
-                    }}
-                    handleChange={handleChange}
-                />
-                <Label text={'Ingrese la Contraseña'}/>
-                <Input 
-                    className="form-control"
-                    atributte={{
-                        id:'contrasenia',
-                        name:'contrasenia',
-                        type:'password',
-                        placeholder:'Ingrese su Contraseña'
-                    }}
-                    handleChange={handleChange}                    
-                />  
-                <button className="btn btn-primary" onClick={handleSubmit}>Ingresar</button>        
-            </div>            
-        </div>
-       
+      
+        
+    <div>
+    <div className="sidenav" >
 
-      </div>
+         <div className="login-main-text" >
+                <h2>Centralización de Acontecimientos De Violencia</h2>                
+         </div>
+     </div>
+     <div className="main">
+        <div className="col-md-6 col-sm-12">
+           <div className="login-form">
+              <form>
+                 <div className="form-group">
+                    <label>Usuario</label>
+                    <Input 
+                               className="form-control"
+                               atributte={{
+                                   id:'usuario',
+                                   name:'usuario',
+                                   type:'text',
+                                   placeholder:'Ingrese su usuario'
+                               }}
+                               handleChange={handleChange}
+                           />
+                 </div>
+                 <div className="form-group">
+                    <label>Contraseña</label>
+                    <Input 
+                           className="form-control"
+                           atributte={{
+                               id:'contrasenia',
+                               name:'contrasenia',
+                               type:'password',
+                               placeholder:'Ingrese su Contraseña'
+                           }}
+                           handleChange={handleChange}                    
+                       />  
+                 </div>
+                 <Button  className="btn btn-info" onClick={handleSubmit}>Login</Button>
+                 
+              </form>
+           </div>
+        </div>
+     </div>  
+     </div>
+    
+  
+     
+      
     );
   }
   

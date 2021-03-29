@@ -1,10 +1,10 @@
 import React from 'react';
+import {Input} from 'reactstrap'
 
-
-const Input=({atributte, handleChange, param}) =>{
+const input=({atributte, handleChange, param}) =>{
     return(
         <div>
-            <input 
+            <Input 
                 id={atributte.id}
                 name={atributte.name}
                 placeholder={atributte.placeholder}
@@ -20,4 +20,4 @@ const Input=({atributte, handleChange, param}) =>{
 };
 
 
-export default Input;
+export default input;
